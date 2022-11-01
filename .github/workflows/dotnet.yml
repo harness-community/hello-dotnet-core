@@ -28,54 +28,26 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: slack1
+    - name: Post to a Slack channel
+      id: slack
       uses: slackapi/slack-github-action@v1.23.0
       with:
-        # The following message update step does not accept a channel name.
-        # Setting a channel ID here for consistency is highly recommended.
-        channel-id: "C048UJ310CE"
+        # Slack channel id, channel name, or user id to post message.
+        # See also: https://api.slack.com/methods/chat.postMessage#channels
+        channel-id: 'CHANNEL_ID'
+        # For posting a rich message using Block Kit
         payload: |
           {
-            "text": "Deployment started (In Progress)",
-            "attachments": [
+            "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+            "blocks": [
               {
-                "pretext": "Deployment started",
-                "color": "dbab09",
-                "fields": [
-                  {
-                    "title": "Status",
-                    "short": true,
-                    "value": "In Progress"
-                  }
-                ]
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                }
               }
             ]
           }
       env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN}}
-    - name: slack2
-    - uses: slackapi/slack-github-action@v1.23.0
-      with:
-        # Unlike the step posting a new message, this step does not accept a channel name.
-        # Please use a channel ID, not a name here.
-        channel-id: "C048UJ310CE"
-        update-ts: ${{ steps.slack.outputs.ts }}
-        payload: |
-          {
-            "text": "Deployment finished (Completed)",
-            "attachments": [
-              {
-                "pretext": "Deployment finished",
-                "color": "28a745",
-                "fields": [
-                  {
-                    "title": "Status",
-                    "short": true,
-                    "value": "Completed"
-                  }
-                ]
-              }
-            ]
-          }
-      env:
-        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN}}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
