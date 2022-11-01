@@ -15,8 +15,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Post to a Slack channel
-    - id: slack
+    - name: slack1
       uses: slackapi/slack-github-action@v1.23.0
       with:
         # The following message update step does not accept a channel name.
@@ -41,6 +40,7 @@ jobs:
           }
       env:
         SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN}}
+    - name: slack2
     - uses: slackapi/slack-github-action@v1.23.0
       with:
         # Unlike the step posting a new message, this step does not accept a channel name.
