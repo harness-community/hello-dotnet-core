@@ -37,3 +37,16 @@ pipeline:
                     image: alpine
                     shell: Sh
                     command: echo hello
+              - step:
+                  type: Plugin
+                  name: pluginstep
+                  identifier: pluginstep
+                  spec:
+                    connectorRef: gcp_storage
+                    image: plugins/github-actions
+                    settings:
+                      name: githubreponame
+                      uses: githubactionbranchpath
+                      with: key1:value1 key2:value2
+                  description: pluginstepdesc
+                  failureStrategies: []
