@@ -47,6 +47,6 @@ pipeline:
                     settings:
                       name: githubreponame
                       uses: githubactionbranchpath
-                      with: key1:value1 key2:value2
+                      with: key1:value1 key2:<+stage.variables.GCP_SECRET_KEY_BASE64> key3:{"Hello":"World"}
                   description: pluginstepdesc
                   failureStrategies: []
