@@ -39,7 +39,7 @@ pipeline:
                     command: echo hello
               - step:
                   type: Plugin
-                  name: pluginstep
+                  name: pluginstepgithub
                   identifier: pluginstep
                   spec:
                     connectorRef: gcp_storage
@@ -48,5 +48,8 @@ pipeline:
                       name: githubreponame
                       uses: githubactionbranchpath
                       with: key1:value1 key2:<+stage.variables.GCP_SECRET_KEY_BASE64> key3:{"Hello":"World"}
-                  description: pluginstepdesc
+                  description: |-
+                    pluginstepdescline1
+                    pluginstepdescline2
+                    pluginstepdescline3
                   failureStrategies: []
